@@ -43,9 +43,10 @@ def countLinesInFile(fileName):
 def getTotalLines(flags):
     def isCounted(name):
         for type in flags.types:
-	    if name.endswith("." + type) or type == "all": return True
-        return False
-
+            if name.endswith("." + type) or type == "all":
+                return True
+            else:
+                return False
     totalLines = 0
     for root, dirs, files in os.walk(flags.root):
         for file in files:
