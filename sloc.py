@@ -1,17 +1,19 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 import os
 import sys
+
 
 class Flags():
     def __init__(self, root, types):
         self.root = root
         self.types = types
 
+
 def getFlags():
     root = "./"
     types = []
-    
+
     index = 1
     while index < len(sys.argv):
         arg = sys.argv[index]
@@ -28,22 +30,30 @@ def getFlags():
     for type in types:
         sys.stdout.write(type + " ")
 
-    print("in directory tree %s."%(root))
+    print(f"in directory tree {root}.")
 
     return Flags(root, types)
 
+
 def countLinesInFile(fileName):
     i = -1
-    with open(fileName) as file:
-        for i, l in enumerate(file):
-            pass
-    print("Counted %d lines in file: %s"%(i+1, fileName))
+    try:
+        with open(fileName, "r") as file:
+            for i, l in enumerate(file):
+                pass
+    except UnicodeDecodeError:
+        print(f"Warning: did not process file: {fileName} as valid Unicode text.")
+        return 0
+
+    print(f"Counted {i+1} lines in file {fileName}.")
     return i + 1
+
 
 def getTotalLines(flags):
     def isCounted(name):
         for type in flags.types:
-	    if name.endswith("." + type) or type == "all": return True
+            if name.endswith("." + type) or type == "all":
+                return True
         return False
 
     totalLines = 0
@@ -54,5 +64,6 @@ def getTotalLines(flags):
 
     return totalLines
 
+
 totalLines = getTotalLines(getFlags())
-print("\nTOTAL: Counted %d lines of code."%(totalLines))
+print(f"\nTOTAL: Counted {totalLines} lines of code.")
