@@ -36,17 +36,16 @@ def getFlags():
 
 
 def countLinesInFile(fileName):
-    i = -1
     try:
-        with open(fileName, "r") as file:
-            for i, l in enumerate(file):
+        with open(fileName, "r", encoding="utf-8") as file:
+            for i, l in enumerate(file, 1):
                 pass
-    except UnicodeDecodeError:
+    except (UnicodeDecodeError, UnicodeEncodeError):
         print(f"Warning: did not process file: {fileName} as valid Unicode text.")
         return 0
 
-    print(f"Counted {i+1} lines in file {fileName}.")
-    return i + 1
+    print(f"Counted {i} lines in file {fileName}.")
+    return i
 
 
 def getTotalLines(flags):
